@@ -1,6 +1,6 @@
 import React from 'react';
-import './button.scss'
-const Button = ({children, ...otherProps}) => {
+import './CustomButton.scss'
+const CustomButton = ({children, ...otherProps}) => {
     return (
         <button className='button' {...otherProps}>
             {children}
@@ -8,4 +8,4 @@ const Button = ({children, ...otherProps}) => {
     );
 };
 
-export default Button;
+export default CustomButton;
