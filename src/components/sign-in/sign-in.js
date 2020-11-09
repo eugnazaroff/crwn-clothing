@@ -50,10 +50,12 @@ class SignIn extends Component {
                         value={this.state.password}
                         label="password"
                         handleChange={this.handleChange}
-                        />
+                    />
+                    <div className="sign-in__button-group">
 
-                    <p><CustomButton onClick = {signInWithGoogle}>SIGN IN WITH GOOGLE</CustomButton></p>
-                    <p><CustomButton type='submit'>SIGN IN</CustomButton></p>
+                        <CustomButton type='submit'>SIGN IN</CustomButton>
+                        <CustomButton style={{background:'#4285F4', color:'fff', border:'none'}} onClick={signInWithGoogle}>SIGN IN WITH GOOGLE</CustomButton>
+                    </div>
 
                 </form>
             </div>
