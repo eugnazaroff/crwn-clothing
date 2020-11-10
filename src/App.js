@@ -6,9 +6,8 @@ import Shop from "./pages/shop/shop";
 import {Switch, Route} from 'react-router-dom'
 import Header from "./components/header/header";
 import Login from "./pages/login/login";
+import {auth, createUserProfileDocument} from './firebase/firebase-utils'
 
-import {auth} from './firebase/firebase-utils'
-import CustomButton from "./components/Custom Button/CustomButton";
 
 const HatsPage = () => (
     <div>
@@ -28,13 +27,25 @@ class App extends React.Component {
     }
 
     unsubscribeFromAuth = null
+
     componentDidMount() {
-        this.unsubscribeFromAuth = auth.onAuthStateChanged((user) =>
-            this.setState({
-                    currentUser: user
-                }
-            )
-        )
+        this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+            if (userAuth) {
+                const userRef = await createUserProfileDocument(userAuth)
+
+                userRef.onSnapshot(snapshot => {
+                    this.setState({
+                        currentUser: {
+                            id: snapshot.id,
+                            ...snapshot.data()
+                        }
+                    })
+                    console.log(this.state)
+                })
+
+            }
+            this.setState({currentUser: userAuth})
+        })
     }
 
     componentWillUnmount() {
@@ -45,7 +56,7 @@ class App extends React.Component {
         return (
 
             <div className="App">
-                <Header currentUser = {this.state.currentUser}/>
+                <Header currentUser={this.state.currentUser}/>
                 <Switch>
                     <Route exact path='/' component={Homepage}/>
                     <Route path='/shop' component={Shop}/>
