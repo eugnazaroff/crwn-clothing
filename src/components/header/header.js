@@ -4,9 +4,10 @@ import './header.scss'
 import {Link} from "react-router-dom";
 import {ReactComponent as Logo} from '../../assets/crown.svg'
 import {auth} from '../../firebase/firebase-utils'
+import CartIcon from "../cart-icon/cart-icon";
+import CartDropdown from "../cart-dropdown/cart-dropdown";
 
-
-const Header = ({currentUser}) => {
+const Header = ({currentUser, hidden}) => {
     console.log(currentUser)
     return (
         <div className='header'>
@@ -16,7 +17,6 @@ const Header = ({currentUser}) => {
             </Link>
 
             <div className="options">
-                <p style={{fontSize:'2rem', marginRight:'50px'}}>{`${!currentUser? '...' : currentUser.displayName}`}</p>
                 <Link className='option' to='/shop'>SHOP</Link>
                 <Link className='option' to='/contact'>CONTACT</Link>
                 {currentUser ? (
@@ -28,13 +28,19 @@ const Header = ({currentUser}) => {
                         SIGN IN
                     </Link>
                 )}
+                <CartIcon/>
             </div>
+            {
+                hidden ? null : <CartDropdown/>
+            }
+
         </div>
     );
 };
 
-const mapStateToProps = state => ({
-    currentUser: state.user.currentUser
+const mapStateToProps = ({user: {currentUser}, cart:{hidden}}) => ({
+    currentUser,
+    hidden
 });
 
 export default connect(mapStateToProps)(Header);
