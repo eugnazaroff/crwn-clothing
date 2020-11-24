@@ -10,12 +10,6 @@ import Login from "./pages/login/login";
 import {auth, createUserProfileDocument} from './firebase/firebase-utils'
 import {setCurrentUser} from "./redux/user/user.actions";
 
-const HatsPage = () => (
-    <div>
-        <h1>HATS PAGE</h1>
-    </div>
-)
-
 
 class App extends React.Component {
 
@@ -23,7 +17,7 @@ class App extends React.Component {
     unsubscribeFromAuth = null
 
     componentDidMount() {
-        const { setCurrentUser } = this.props;
+        const {setCurrentUser} = this.props;
 
         this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
             if (userAuth) {
